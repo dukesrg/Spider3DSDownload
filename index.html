@@ -21,8 +21,19 @@ if(r==w){
 		x.overrideMimeType('text/plain; charset=x-user-defined');
 		x.onload=function(){
 			if(x.status==200){
-				var u='OK<br>Patching filename to '+l+': ';
+				var u='OK';
 				var s=x.responseText;
+				if(g[0].length>0){
+					u+='<br>Patching URL to '+g[0]+': ';
+					y=s.indexOf('http://');
+					if(y>0){
+						s=s.substring(0,y)+g[0]+'\0'+s.slice(y+g[0].length+1);
+						u+='OK';
+					}else{
+						u+='skipped';
+					}
+				}
+				u+='<br>Patching filename to '+l+': ';
 				var y=s.length;
 				var t=Array(y<768?768:y);
 				for(i=0;i<y;t[i]=s.charCodeAt(i)&255,i++);
